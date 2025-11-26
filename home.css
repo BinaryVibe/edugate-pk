@@ -1,0 +1,118 @@
+/* public/assets/css/home.css */
+
+/* Hero Section matches the Emerald Green header */
+.hero-section {
+    background-color: var(--emerald-primary); /* Uses variable from base.css */
+    padding-top: 80px;
+    padding-bottom: 100px;
+    text-align: center;
+    color: white;
+}
+
+.hero-title {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.hero-subtitle {
+    font-weight: 300;
+    opacity: 0.9;
+    margin-bottom: 40px;
+}
+
+/* The "Pill" Search Bar */
+.search-bar-container {
+    background: white;
+    border-radius: 50px; /* Fully rounded ends */
+    padding: 8px 20px;
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.search-input {
+    border: none;
+    box-shadow: none;
+    flex-grow: 1;
+    padding: 10px;
+    outline: none;
+}
+
+.search-input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.city-select {
+    border: none;
+    background-color: transparent;
+    border-left: 1px solid #eee;
+    margin-left: 10px;
+    padding-left: 10px;
+    color: #666;
+    outline: none;
+    cursor: pointer;
+}
+
+/* University Cards */
+.uni-card {
+    border: none;
+    border-radius: 20px; /* Soft, large radius like the design */
+    background: white;
+    text-align: center;
+    padding: 40px 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    height: 100%;
+}
+
+.uni-card:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.uni-logo-container {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.uni-logo {
+    max-height: 70px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.uni-name {
+    font-weight: 700;
+    color: var(--text-dark);
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.uni-city {
+    color: #9ca3af; /* Light grey text */
+    font-weight: 400;
+}
+
+/* Pagination (Visual only for now) */
+.pagination-container {
+    margin-top: 50px;
+}
+.page-link-custom {
+    padding: 0 15px;
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 600;
+}
+.page-link-custom.active {
+    color: var(--emerald-primary);
+}
+
+:root {
+    --emerald-primary: #10b981; /* Matches the design green */
+}
