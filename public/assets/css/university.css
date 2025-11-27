@@ -1,0 +1,11 @@
+.uni-header { background: white; border-bottom: 1px solid #e5e7eb; padding: 40px 0; }
+.uni-logo-large { width: 120px; height: 120px; object-fit: contain; border: 1px solid #eee; padding: 10px; border-radius: 12px; }
+.btn-action { background-color: var(--emerald-primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; text-decoration: none; display: inline-block; margin-right: 10px; }
+.btn-action:hover { background-color: var(--emerald-dark); color: white; }
+.custom-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
+.custom-table td { background: white; padding: 15px; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
+.status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+.status-open { background: var(--emerald-primary); color: white; }
+.status-closed { background: #ef4444; color: white; }
+.status-upcoming { background: #f59e0b; color: white; }
+.content-card { background: white; padding: 25px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
