@@ -39,6 +39,9 @@ $universities = $uniModel->getAll();
                             <small class="text-muted"><?php echo htmlspecialchars($uni['city']); ?></small>
                         </div>
                     </div>
+                    <a href="university-edit.php?id=<?php echo $uni['id']; ?>" class="btn btn-sm btn-outline-secondary">
+    <i class="bi bi-pencil-square"></i> Edit
+</a>
                     <form action="delete.php" method="POST" onsubmit="return confirm('Delete this university?');">
                         <input type="hidden" name="id" value="<?php echo $uni['id']; ?>">
                         <button class="btn btn-sm btn-outline-danger">Delete</button>
