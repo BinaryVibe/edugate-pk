@@ -21,11 +21,21 @@
                     </svg>
                     <span class="ml-2 text-white font-bold text-lg">EduGate <span class="text-emerald-400 font-light">Admin</span></span>
                 </div>
-                <!-- Logout Button -->
-                <div>
+                
+                <!-- Right Side Actions -->
+                <div class="flex items-center space-x-6">
+                    <!-- NEW: Link to Home -->
+                    <a href="{{ route('home') }}" target="_blank" class="text-emerald-200 hover:text-white text-sm font-medium flex items-center transition-colors">
+                        View Site 
+                        <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
+
+                    <!-- Logout Button -->
                     <form action="{{ route('admin.logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="text-emerald-100 hover:text-white text-sm font-medium transition-colors">
+                        <button type="submit" class="text-emerald-100 hover:text-white text-sm font-medium transition-colors border border-emerald-700 hover:bg-emerald-800 px-3 py-1 rounded">
                             Logout
                         </button>
                     </form>
@@ -45,7 +55,7 @@
                 </h2>
             </div>
             <div class="mt-4 flex md:mt-0 md:ml-4">
-                <!-- Add Button (We will build this page next) -->
+                <!-- Add Button -->
                 <a href="{{ route('admin.universities.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                     <svg class="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
@@ -112,20 +122,20 @@
                                         
                                         <!-- Actions Column -->
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2 flex justify-end">
-    <!-- Edit Button -->
-    <a href="{{ route('admin.universities.edit', $uni->id) }}" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 px-3 py-1 rounded hover:bg-indigo-100 transition-colors">
-        Edit
-    </a>
+                                            <!-- Edit Button -->
+                                            <a href="{{ route('admin.universities.edit', $uni->id) }}" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 px-3 py-1 rounded hover:bg-indigo-100 transition-colors">
+                                                Edit
+                                            </a>
 
-    <!-- Delete Button (Must be a Form for security) -->
-    <form action="{{ route('admin.universities.destroy', $uni->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete {{ $uni->name }}?');" class="inline">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="text-red-600 hover:text-red-900 bg-red-50 px-3 py-1 rounded hover:bg-red-100 transition-colors">
-            Delete
-        </button>
-    </form>
-</td>
+                                            <!-- Delete Button -->
+                                            <form action="{{ route('admin.universities.destroy', $uni->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete {{ $uni->name }}?');" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-600 hover:text-red-900 bg-red-50 px-3 py-1 rounded hover:bg-red-100 transition-colors">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
