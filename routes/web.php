@@ -20,5 +20,11 @@ Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/universities/create', [\App\Http\Controllers\AdminController::class, 'create'])->name('admin.universities.create');
         Route::post('/universities', [\App\Http\Controllers\AdminController::class, 'store'])->name('admin.universities.store');
+     // Edit & Update
+    Route::get('/universities/{university}/edit', [\App\Http\Controllers\AdminController::class, 'edit'])->name('admin.universities.edit');
+    Route::put('/universities/{university}', [\App\Http\Controllers\AdminController::class, 'update'])->name('admin.universities.update');
+    
+    // Delete
+    Route::delete('/universities/{university}', [\App\Http\Controllers\AdminController::class, 'destroy'])->name('admin.universities.destroy');
     });
 });
