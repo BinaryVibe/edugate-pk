@@ -27,8 +27,24 @@
                         <span class="font-bold text-xl tracking-tight text-gray-900">EduGate <span class="text-emerald-600">Pakistan</span></span>
                     </a>
                 </div>
-                <div class="flex items-center">
-                   <!-- Placeholder for Admin Link or other nav items -->
+                
+                <!-- NEW: Navigation Links -->
+                <div class="flex items-center space-x-4">
+                    <a href="{{ route('home') }}" class="text-gray-500 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium">
+                        Home
+                    </a>
+                    
+                    @auth
+                        <!-- If logged in, show Dashboard link -->
+                        <a href="{{ route('admin.dashboard') }}" class="bg-emerald-100 text-emerald-700 hover:bg-emerald-200 px-4 py-2 rounded-md text-sm font-medium">
+                            Admin Dashboard
+                        </a>
+                    @else
+                        <!-- If not logged in, show Login link -->
+                        <a href="{{ route('admin.login') }}" class="bg-emerald-600 text-white hover:bg-emerald-700 px-4 py-2 rounded-md text-sm font-medium shadow-sm">
+                            Admin Login
+                        </a>
+                    @endauth
                 </div>
             </div>
         </div>
