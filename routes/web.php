@@ -17,9 +17,6 @@ Route::prefix('admin')->group(function () {
 
     // Protected Routes (Only accessible if logged in)
     Route::middleware('auth')->group(function () {
-        // We will build this Dashboard controller in the next step
-        Route::get('/dashboard', function () {
-            return "Welcome to Admin Dashboard"; 
-        })->name('admin.dashboard');
+        Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
     });
 });
