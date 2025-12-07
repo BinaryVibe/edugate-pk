@@ -111,10 +111,21 @@
                                         </td>
                                         
                                         <!-- Actions Column -->
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                            <a href="#" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 px-3 py-1 rounded hover:bg-indigo-100 transition-colors">Edit</a>
-                                            <a href="#" class="text-red-600 hover:text-red-900 bg-red-50 px-3 py-1 rounded hover:bg-red-100 transition-colors">Delete</a>
-                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2 flex justify-end">
+    <!-- Edit Button -->
+    <a href="{{ route('admin.universities.edit', $uni->id) }}" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 px-3 py-1 rounded hover:bg-indigo-100 transition-colors">
+        Edit
+    </a>
+
+    <!-- Delete Button (Must be a Form for security) -->
+    <form action="{{ route('admin.universities.destroy', $uni->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete {{ $uni->name }}?');" class="inline">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="text-red-600 hover:text-red-900 bg-red-50 px-3 py-1 rounded hover:bg-red-100 transition-colors">
+            Delete
+        </button>
+    </form>
+</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
