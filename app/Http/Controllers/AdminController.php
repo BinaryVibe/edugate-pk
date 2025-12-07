@@ -14,9 +14,6 @@ class AdminController extends Controller
         $universities = University::orderBy('last_updated', 'desc')->paginate(10);
         return view('admin.index', compact('universities'));
     }
-
-    // --- NEW METHODS ---
-
     /**
      * Show the form for creating a new university.
      */
@@ -79,5 +76,73 @@ class AdminController extends Controller
 
         // 5. Redirect back to Dashboard
         return redirect()->route('admin.dashboard')->with('success', 'University added successfully!');
+    }
+
+    public function edit($id)
+    {
+        // Find university and load its relationships
+        $university = University::with(['deadlines', 'programs'])->findOrFail($id);
+        return view('admin.edit', compact('university'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $university = University::findOrFail($id);
+
+        // 1. Validate
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'city' => 'required|string|max:100',
+            'website_url' => 'nullable|url',
+            'deadlines' => 'nullable|array',
+            'programs' => 'nullable|array',
+        ]);
+
+        // 2. Update Basic Info
+        $university->update([
+            'name' => $request->name,
+            'city' => $request->city,
+            'website_url' => $request->website_url,
+            'description' => $request->description,
+            'last_updated' => now(),
+        ]);
+
+        // 3. Sync Deadlines (Delete old, Create new)
+        $university->deadlines()->delete(); 
+        if ($request->has('deadlines')) {
+            foreach ($request->deadlines as $deadline) {
+                if (!empty($deadline['title'])) {
+                    $university->deadlines()->create([
+                        'title' => $deadline['title'],
+                        'start_date' => $deadline['start_date'],
+                        'end_date' => $deadline['end_date'],
+                        'status' => $deadline['status'],
+                    ]);
+                }
+            }
+        }
+
+        // 4. Sync Programs (Delete old, Create new)
+        $university->programs()->delete();
+        if ($request->has('programs')) {
+            foreach ($request->programs as $program) {
+                if (!empty($program['name'])) {
+                    $university->programs()->create([
+                        'program_name' => $program['name'],
+                        'criteria' => $program['criteria'],
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->route('admin.dashboard')->with('success', 'University updated successfully!');
+    }
+
+    public function destroy($id)
+    {
+        $university = University::findOrFail($id);
+        $university->delete(); // This also deletes deadlines/programs because of 'onDelete cascade' in migration
+        
+        return redirect()->route('admin.dashboard')->with('success', 'University deleted successfully!');
     }
 }
