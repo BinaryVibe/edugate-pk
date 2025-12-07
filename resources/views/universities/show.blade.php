@@ -131,28 +131,15 @@
 
         <!-- Right Column: Sidebar (Span 1) -->
         <div class="space-y-8">
-            <!-- About Section -->
+            <!-- About Section (Now the only section in the sidebar) -->
             <div class="bg-white shadow rounded-lg p-6 border border-gray-100">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">About University</h3>
                 <p class="text-gray-600 leading-relaxed text-sm">
                     {{ $university->description }}
                 </p>
             </div>
-
-            <!-- Location Section (Static Placeholder) -->
-            <div class="bg-white shadow rounded-lg p-6 border border-gray-100">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Location</h3>
-                <div class="bg-gray-200 rounded-lg h-48 w-full flex items-center justify-center text-gray-500 text-sm">
-                    <div class="text-center">
-                        <svg class="mx-auto h-8 w-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
-                        Map Unavailable
-                    </div>
-                </div>
-            </div>
         </div>
+
     </div>
 </div>
 @endsection
