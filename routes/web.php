@@ -18,5 +18,7 @@ Route::prefix('admin')->group(function () {
     // Protected Routes (Only accessible if logged in)
     Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/universities/create', [\App\Http\Controllers\AdminController::class, 'create'])->name('admin.universities.create');
+        Route::post('/universities', [\App\Http\Controllers\AdminController::class, 'store'])->name('admin.universities.store');
     });
 });
