@@ -46,7 +46,7 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Website URL</label>
-                                <input type="url" name="website_url" value="{{ $university->website_url }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                                <input type="text" name="website_url" value="{{ $university->website_url }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
                             </div>
                             <div class="sm:col-span-2">
                                 <label class="block text-sm font-medium text-gray-700">Description</label>
