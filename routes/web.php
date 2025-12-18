@@ -27,4 +27,8 @@ Route::prefix('admin')->group(function () {
     // Delete
     Route::delete('/universities/{university}', [\App\Http\Controllers\AdminController::class, 'destroy'])->name('admin.universities.destroy');
     });
+
+    //Admin Account Management
+    Route::get('/admins/create', [\App\Http\Controllers\AdminController::class, 'createAdmin'])->name('admin.admins.create');
+    Route::post('/admins', [\App\Http\Controllers\AdminController::class, 'storeAdmin'])->name('admin.admins.store');
 });
