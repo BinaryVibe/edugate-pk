@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\University;
-use App\Models\AdmissionDeadline;
-use App\Models\Program;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -14,73 +15,45 @@ class AdminController extends Controller
         $universities = University::orderBy('last_updated', 'desc')->paginate(10);
         return view('admin.index', compact('universities'));
     }
-    /**
-     * Show the form for creating a new university.
-     */
+
+    // --- UNIVERSITY MANAGEMENT ---
+
     public function create()
     {
         return view('admin.create');
     }
 
-    /**
-     * Store a newly created university in storage.
-     */
     public function store(Request $request)
     {
-        // 1. Validate the Input
         $request->validate([
             'name' => 'required|string|max:255',
             'city' => 'required|string|max:100',
-            'website_url' => 'nullable|url',
-            // Arrays for dynamic rows
+            'website_url' => 'nullable|string', // Changed to string to allow fixing
             'deadlines' => 'nullable|array',
             'programs' => 'nullable|array',
         ]);
 
-        // 2. Create the University
+        // FIX: Automatically add https:// if missing
+        $url = $request->website_url;
+        if ($url && !Str::startsWith($url, ['http://', 'https://'])) {
+            $url = 'https://' . $url;
+        }
+
         $university = University::create([
             'name' => $request->name,
             'city' => $request->city,
-            'website_url' => $request->website_url,
+            'website_url' => $url, // Use fixed URL
             'description' => $request->description,
-            // We use the current timestamp for last_updated
             'last_updated' => now(),
         ]);
 
-        // 3. Create Deadlines (if any)
-        if ($request->has('deadlines')) {
-            foreach ($request->deadlines as $deadline) {
-                // Skip empty rows
-                if (!empty($deadline['title'])) {
-                    $university->deadlines()->create([
-                        'title' => $deadline['title'],
-                        'start_date' => $deadline['start_date'],
-                        'end_date' => $deadline['end_date'],
-                        'status' => $deadline['status'],
-                    ]);
-                }
-            }
-        }
+        $this->saveRelationships($university, $request);
 
-        // 4. Create Programs (if any)
-        if ($request->has('programs')) {
-            foreach ($request->programs as $program) {
-                if (!empty($program['name'])) {
-                    $university->programs()->create([
-                        'program_name' => $program['name'],
-                        'criteria' => $program['criteria'],
-                    ]);
-                }
-            }
-        }
-
-        // 5. Redirect back to Dashboard
         return redirect()->route('admin.dashboard')->with('success', 'University added successfully!');
     }
 
     public function edit($id)
     {
-        // Find university and load its relationships
         $university = University::with(['deadlines', 'programs'])->findOrFail($id);
         return view('admin.edit', compact('university'));
     }
@@ -89,26 +62,46 @@ class AdminController extends Controller
     {
         $university = University::findOrFail($id);
 
-        // 1. Validate
         $request->validate([
             'name' => 'required|string|max:255',
             'city' => 'required|string|max:100',
-            'website_url' => 'nullable|url',
+            'website_url' => 'nullable|string',
             'deadlines' => 'nullable|array',
             'programs' => 'nullable|array',
         ]);
 
-        // 2. Update Basic Info
+        // FIX: Automatically add https:// if missing
+        $url = $request->website_url;
+        if ($url && !Str::startsWith($url, ['http://', 'https://'])) {
+            $url = 'https://' . $url;
+        }
+
         $university->update([
             'name' => $request->name,
             'city' => $request->city,
-            'website_url' => $request->website_url,
+            'website_url' => $url, // Use fixed URL
             'description' => $request->description,
             'last_updated' => now(),
         ]);
 
-        // 3. Sync Deadlines (Delete old, Create new)
-        $university->deadlines()->delete(); 
+        // Sync Deadlines & Programs (Delete old, create new)
+        $university->deadlines()->delete();
+        $university->programs()->delete();
+        $this->saveRelationships($university, $request);
+
+        return redirect()->route('admin.dashboard')->with('success', 'University updated successfully!');
+    }
+
+    public function destroy($id)
+    {
+        $university = University::findOrFail($id);
+        $university->delete();
+        return redirect()->route('admin.dashboard')->with('success', 'University deleted successfully!');
+    }
+
+    // Helper to save deadlines/programs to avoid duplicate code
+    private function saveRelationships($university, $request)
+    {
         if ($request->has('deadlines')) {
             foreach ($request->deadlines as $deadline) {
                 if (!empty($deadline['title'])) {
@@ -121,9 +114,6 @@ class AdminController extends Controller
                 }
             }
         }
-
-        // 4. Sync Programs (Delete old, Create new)
-        $university->programs()->delete();
         if ($request->has('programs')) {
             foreach ($request->programs as $program) {
                 if (!empty($program['name'])) {
@@ -134,15 +124,29 @@ class AdminController extends Controller
                 }
             }
         }
-
-        return redirect()->route('admin.dashboard')->with('success', 'University updated successfully!');
     }
 
-    public function destroy($id)
+    // --- NEW: ADMIN ACCOUNT MANAGEMENT ---
+
+    public function createAdmin()
     {
-        $university = University::findOrFail($id);
-        $university->delete(); // This also deletes deadlines/programs because of 'onDelete cascade' in migration
-        
-        return redirect()->route('admin.dashboard')->with('success', 'University deleted successfully!');
+        return view('admin.create-admin');
+    }
+
+    public function storeAdmin(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('admin.dashboard')->with('success', 'New Admin Account Created!');
     }
 }
