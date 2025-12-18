@@ -171,7 +171,7 @@ database/seeders/
 
 Let’s connect and collaborate:
 
-🔗 **LinkedIn:** [Ayaan Ahmed Khan](https://www.google.com/search?q=https://www.linkedin.com/in/ayaan-ahmed-khan-448600351)
+🔗 **LinkedIn:** [Ayaan Ahmed Khan](https://www.linkedin.com/in/ayaan-ahmed-khan-448600351)
 
 ---
 
